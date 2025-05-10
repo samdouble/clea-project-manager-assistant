@@ -2,24 +2,36 @@ import requests
 from typing import Any
 
 from pma.integrations.linear import LinearClient
+from pma.utils.constants import LINEAR_BASE_URL
 
-def fct_search_issues() -> list[Any]:
+
+def fct_search_issues(assignee: str = None, is_mine_only: bool = False, is_current_cycle: bool = False) -> list[Any]:
     linear_api_key = LinearClient().api_key
-    url = "https://api.linear.app/graphql"
     headers = {
         "Authorization": linear_api_key,
         "Content-Type": "application/json"
     }
     graphql_query = {
         "query": """
-            query SearchIssues($filter: IssueFilter, $term: String!) {
-                searchIssues(filter: $filter, term: $term) {
+            query SearchIssues($filter: IssueFilter) {
+                issues(filter: $filter) {
                     nodes {
-                        title
-                        url
                         assignee {
                             email
                         }
+                        cycle {
+                            name
+                        }
+                        dueDate
+                        estimate
+                        project {
+                            name
+                        }
+                        state {
+                            name
+                        }
+                        title
+                        url
                     }
                 }
             }
@@ -27,13 +39,19 @@ def fct_search_issues() -> list[Any]:
         "variables": {
             "filter": {
                 "assignee": {
-                    "isMe": {
-                        "eq": True
-                    }
+                    **({"isMe": {"eq": True}} if is_mine_only else {}),
+                    **({"name": {"contains": assignee}} if assignee else {}),
                 }
             },
-            "term": "a"
         }
     }
-    resp = requests.post(url, headers=headers, json=graphql_query)
-    return resp.json()["data"]["searchIssues"]["nodes"]
+    #             cycles(filter: $cycleFilter) {
+    #                 nodes {
+    #                     name
+    #                 }
+    #             }
+    #         "cycleFilter": {
+    #             **({"isActive": {"eq": True}} if is_current_cycle else {}),
+    #         }
+    resp = requests.post(LINEAR_BASE_URL, headers=headers, json=graphql_query)
+    return resp.json()["data"]["issues"]["nodes"]
