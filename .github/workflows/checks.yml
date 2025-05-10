@@ -34,3 +34,11 @@ jobs:
       - name: Build
         run: |
           poetry build
+      - name: Create Executable
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.11'
+          spec: main.py
+          requirements: pyproject.toml
+          upload_exe_with_name: clean-pma
+          options: --onefile, --name "Clea PMA",
