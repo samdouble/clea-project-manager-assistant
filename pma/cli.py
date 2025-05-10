@@ -10,7 +10,7 @@ from rich import print
 
 from pma.integrations.linear import LinearClient
 from pma.mcp_servers.linear.mcp_server import linear_mcp
-from pma.utils.constants import AGENT_NAME, ANTHROPIC_MODEL
+from pma.utils.constants import ANTHROPIC_MODEL
 from pma.utils.print import print_agent_message
 from pma.utils.prompts import BASIC_PROMPT
 
@@ -78,9 +78,10 @@ async def run():
                     message_json = json.loads(message_text)
                     if message_json.get("target") == "MCP":
                         result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
-                        print(f"[blue]MCP:[/blue] {result}")
+                        issues = json.loads(result[0].text)
+                        print(f"[blue]MCP:[/blue] {issues}")
                     elif message_json.get("target") == "user":
                         print_agent_message(message_json.get('message'))
                 except Exception as e:
-                    print(f"[red]Could not parse answer:[/red] {e}", traceback.format_exc())
+                    print(f"[red]Could not parse answer:[/red] {e}", message_text, traceback.format_exc())
                     continue
