@@ -48,7 +48,7 @@ async def run():
         api_key=anthropic_api_key,
     )
 
-    print_agent_message(f"You can start conversing with me. I'm your project manager assistant and hopefully competent at it.")
+    print_agent_message("You can start conversing with me. I'm your project manager assistant and hopefully competent at it.")
 
     messages = []
     messages.append({
