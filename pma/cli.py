@@ -12,7 +12,7 @@ from pma.integrations.linear import LinearClient
 from pma.mcp_servers.linear.mcp_server import linear_mcp
 from pma.utils.constants import ANTHROPIC_MODEL
 from pma.utils.print import print_agent_message
-from pma.utils.prompts import BASIC_PROMPT
+from pma.utils.prompts import BASIC_PROMPT, get_follow_up_prompt
 
 app = typer.Typer()
 
@@ -77,13 +77,21 @@ async def run():
                 try:
                     message_json = json.loads(message_text)
                     if message_json.get("target") == "MCP":
-                        result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
-                        issues = json.loads(result[0].text)
-                        issues_str = "\n".join([f"- {issue.get('title')}" for issue in issues])
-                        print_agent_message(f"{message_json.get('message')}\n\n{issues_str}\n")
+                        mcp_result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
+                        # Ask the LLM to answer the user's question
+                        messages.append({"role": "user", "content": get_follow_up_prompt(user_input, mcp_result[0].text)})
+                        aggregated_message = client.messages.create(
+                            model=ANTHROPIC_MODEL,
+                            max_tokens=16384,
+                            messages=messages,
+                        )
+                        aggregated_message_text = aggregated_message.content[0].text
+                        messages.append({"role": "assistant", "content": aggregated_message_text})
+                        aggregated_message_json = json.loads(aggregated_message_text)
+                        print_agent_message(aggregated_message_json.get('message'))
                         print("\n")
                     elif message_json.get("target") == "user":
                         print_agent_message(message_json.get('message'))
                 except Exception as e:
-                    print_agent_message(f"[red]Could not parse answer:[/red] {e}", message_text, traceback.format_exc())
+                    print_agent_message(f"[red]Could not parse answer:[/red] {e} {message_text} {traceback.format_exc()}")
                     continue

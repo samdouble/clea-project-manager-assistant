@@ -11,3 +11,8 @@ Run:
 ```
 poetry run clea
 ```
+
+Ask questions:
+```
+Hi Cléa, I'd like to see my issues for next cycle
+```
