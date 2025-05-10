@@ -11,6 +11,7 @@ from rich import print
 from pma.integrations.linear import LinearClient
 from pma.mcp_servers.linear.mcp_server import linear_mcp
 from pma.utils.constants import AGENT_NAME, ANTHROPIC_MODEL
+from pma.utils.print import print_agent_message
 from pma.utils.prompts import BASIC_PROMPT
 
 app = typer.Typer()
@@ -47,7 +48,7 @@ async def run():
         api_key=anthropic_api_key,
     )
 
-    print(f"You can start conversing with {AGENT_NAME}, your project manager assistant.")
+    print_agent_message(f"You can start conversing with me. I'm your project manager assistant and hopefully competent at it.")
 
     messages = []
     messages.append({
@@ -59,6 +60,10 @@ async def run():
         # print(tools)
         while True:
             user_input = typer.prompt(">")
+            if user_input.lower() == "exit" or user_input.lower() == "quit":
+                print_agent_message("Exiting the conversation. Talk to you next time!")
+                break
+
             messages.append({"role": "user", "content": user_input})
 
             with alive_bar(enrich_print=False, monitor=False, receipt=False, stats=False, theme="smooth", title="Thinking..."):
@@ -75,7 +80,7 @@ async def run():
                         result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
                         print(f"[blue]MCP:[/blue] {result}")
                     elif message_json.get("target") == "user":
-                        print(f"[blue]{AGENT_NAME}:[/blue] {message_json.get('message')}")
+                        print_agent_message(message_json.get('message'))
                 except Exception as e:
                     print(f"[red]Could not parse answer:[/red] {e}", traceback.format_exc())
                     continue
