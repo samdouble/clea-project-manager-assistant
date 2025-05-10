@@ -3,6 +3,7 @@ import json
 import keyring
 import os
 import typer
+from alive_progress import alive_bar
 from fastmcp import Client
 from rich import print
 
@@ -54,7 +55,7 @@ async def run():
 
             Examples:
             User: "Show me all the issues in the current cycle"
-            Assistant: {"target": "MCP", "tool": "linear_search_issues", "params": {"query": "123"}}
+            Assistant: {"target": "MCP", "tool": "search_issues", "params": {"query": "123"}}
         """,
     })
     async with Client(linear_mcp) as linear_mcp_client:
@@ -64,19 +65,21 @@ async def run():
             user_input = typer.prompt(">")
             messages.append({"role": "user", "content": user_input})
 
-            message = client.messages.create(
-                model=ANTHROPIC_MODEL,
-                max_tokens=16384,
-                messages=messages,
-            )
-            message_text = message.content[0].text
-            messages.append({"role": "assistant", "content": message_text})
-            try:
-                message_json = json.loads(message_text)
-                if message_json.get("target") == "MCP":
-                    print(f"[blue]MCP:[/blue] {message_json.get('tool')}")
-                elif message_json.get("target") == "user":
-                    print(f"[blue]{AGENT_NAME}:[/blue] {message_json.get('message')}")
-            except Exception as e:
-                print(f"[red]Could not parse answer:[/red] {e}")
-                continue
+            with alive_bar(enrich_print=False, monitor=False, receipt=False, stats=False, theme="smooth", title="Thinking..."):
+                message = client.messages.create(
+                    model=ANTHROPIC_MODEL,
+                    max_tokens=16384,
+                    messages=messages,
+                )
+                message_text = message.content[0].text
+                messages.append({"role": "assistant", "content": message_text})
+                try:
+                    message_json = json.loads(message_text)
+                    if message_json.get("target") == "MCP":
+                        result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
+                        print(f"[blue]MCP:[/blue] {result.text}")
+                    elif message_json.get("target") == "user":
+                        print(f"[blue]{AGENT_NAME}:[/blue] {message_json.get('message')}")
+                except Exception as e:
+                    print(f"[red]Could not parse answer:[/red] {e}")
+                    continue
