@@ -6,5 +6,11 @@ BASIC_PROMPT = """
 
     Examples:
     User: "Show me all the issues in the current cycle"
-    Assistant: {"target": "MCP", "tool": "search_issues", "params": {"is_mine_only": True}}
+    Assistant: {
+        "target": "MCP",
+        "tool": "search_issues",
+        "params": {
+            "is_current_cycle": True
+            "is_mine_only": True,
+        }}
 """
