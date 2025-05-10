@@ -2,13 +2,16 @@ import anthropic
 import json
 import keyring
 import os
+import traceback
 import typer
 from alive_progress import alive_bar
 from fastmcp import Client
 from rich import print
 
-from pma.mcp_servers.servers import linear_mcp
+from pma.integrations.linear import LinearClient
+from pma.mcp_servers.linear.mcp_server import linear_mcp
 from pma.utils.constants import AGENT_NAME, ANTHROPIC_MODEL
+from pma.utils.prompts import BASIC_PROMPT
 
 app = typer.Typer()
 
@@ -38,6 +41,8 @@ async def run():
         keyring.set_password('samdouble_project_manager_assistant', 'linear_api_key', linear_api_key)
         print("Linear API key saved")
 
+    LinearClient(linear_api_key)
+
     client = anthropic.Anthropic(
         api_key=anthropic_api_key,
     )
@@ -47,20 +52,11 @@ async def run():
     messages = []
     messages.append({
         "role": "user",
-        "content": """
-            You are a project manager that converts user requests about their Linear projects and issues into MCP JSON requests.
-            For every question, simply respond with the MCP JSON object without explanation.
-            If you need additional information to answer the question properly, answer in the JSON format like this:
-            {"target": "user", "message": "<Your message here>"}
-
-            Examples:
-            User: "Show me all the issues in the current cycle"
-            Assistant: {"target": "MCP", "tool": "search_issues", "params": {"query": "123"}}
-        """,
+        "content": BASIC_PROMPT,
     })
     async with Client(linear_mcp) as linear_mcp_client:
-        tools = await linear_mcp_client.list_tools()
-        print(tools)
+        # tools = await linear_mcp_client.list_tools()
+        # print(tools)
         while True:
             user_input = typer.prompt(">")
             messages.append({"role": "user", "content": user_input})
@@ -77,9 +73,9 @@ async def run():
                     message_json = json.loads(message_text)
                     if message_json.get("target") == "MCP":
                         result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
-                        print(f"[blue]MCP:[/blue] {result.text}")
+                        print(f"[blue]MCP:[/blue] {result}")
                     elif message_json.get("target") == "user":
                         print(f"[blue]{AGENT_NAME}:[/blue] {message_json.get('message')}")
                 except Exception as e:
-                    print(f"[red]Could not parse answer:[/red] {e}")
+                    print(f"[red]Could not parse answer:[/red] {e}", traceback.format_exc())
                     continue
