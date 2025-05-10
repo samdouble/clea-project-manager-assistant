@@ -1,6 +1,6 @@
 import requests
 
-def search_issues(linear_api_key: str, query):
+def fct_search_issues(linear_api_key: str):
     url = "https://api.linear.app/graphql"
     headers = {
         "Authorization": linear_api_key,
