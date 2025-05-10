@@ -7,7 +7,7 @@ LINEAR_API_KEY=
 
 Run:
 ```
-python main.py
+poetry run python main.py
 ```
 
 Example of what to send it:
