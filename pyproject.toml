@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "project-manager-assistant"
+name = "clea-pma"
 version = "0.1.0"
-description = ""
+description = "Your project manager assistant"
 authors = ["samdouble <not-real@not-real.com>"]
 readme = "README.md"
 packages = [{ include = "pma" }]
@@ -13,6 +13,14 @@ keyring = "^25.6.0"
 requests = "^2.32.3"
 rich = "^14.0.0"
 anthropic = "^0.51.0"
+
+[tool.poetry.scripts]
+clea = "pma.cli:app"
+pma = "pma.cli:app"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.9"
+pytest = "^8.3.5"
 
 [build-system]
 requires = ["poetry-core"]
