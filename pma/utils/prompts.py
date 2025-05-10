@@ -18,3 +18,15 @@ BASIC_PROMPT = """
         }
     }
 """
+
+def get_follow_up_prompt(question: str, mcp_response: str) -> str:
+    return f"""
+        This is the question of the user.
+        {question}
+
+        This is the response from the MCP.
+        {mcp_response}
+
+        If you need additional information to answer the question properly, answer in the JSON format like this:
+        {{"target": "user", "message": "<Your message here>"}}
+    """
