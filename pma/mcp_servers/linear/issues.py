@@ -1,6 +1,10 @@
 import requests
+from typing import Any
 
-def fct_search_issues(linear_api_key: str):
+from pma.integrations.linear import LinearClient
+
+def fct_search_issues() -> list[Any]:
+    linear_api_key = LinearClient().api_key
     url = "https://api.linear.app/graphql"
     headers = {
         "Authorization": linear_api_key,
@@ -32,4 +36,4 @@ def fct_search_issues(linear_api_key: str):
         }
     }
     resp = requests.post(url, headers=headers, json=graphql_query)
-    return resp.json()
+    return resp.json()["data"]["searchIssues"]["nodes"]
