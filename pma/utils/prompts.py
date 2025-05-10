@@ -5,12 +5,16 @@ BASIC_PROMPT = """
     {"target": "user", "message": "<Your message here>"}
 
     Examples:
-    User: "Show me all the issues in the current cycle"
+    User: "Show me all my issues in the current cycle"
     Assistant: {
         "target": "MCP",
         "tool": "search_issues",
+        "message": "Here are all your issues in the current cycle.",
         "params": {
-            "is_current_cycle": True
+            "is_current_cycle": True,
             "is_mine_only": True,
-        }}
+            "is_next_cycle": False,
+            "is_previous_cycle": False,
+        }
+    }
 """

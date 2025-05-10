@@ -79,9 +79,11 @@ async def run():
                     if message_json.get("target") == "MCP":
                         result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
                         issues = json.loads(result[0].text)
-                        print(f"[blue]MCP:[/blue] {issues}")
+                        issues_str = "\n".join([f"- {issue.get('title')}" for issue in issues])
+                        print_agent_message(f"{message_json.get('message')}\n\n{issues_str}\n")
+                        print("\n")
                     elif message_json.get("target") == "user":
                         print_agent_message(message_json.get('message'))
                 except Exception as e:
-                    print(f"[red]Could not parse answer:[/red] {e}", message_text, traceback.format_exc())
+                    print_agent_message(f"[red]Could not parse answer:[/red] {e}", message_text, traceback.format_exc())
                     continue
