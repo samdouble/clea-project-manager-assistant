@@ -12,6 +12,7 @@ typer = "^0.15.3"
 keyring = "^25.6.0"
 requests = "^2.32.3"
 rich = "^14.0.0"
+anthropic = "^0.51.0"
 
 [build-system]
 requires = ["poetry-core"]
