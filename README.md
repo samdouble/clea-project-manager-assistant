@@ -1,9 +1,10 @@
 # project-manager-assistant
 
-Create a `.env` file like this:
+Optionally, create a `.env` file like this:
 ```
 LINEAR_API_KEY=
 ```
+If you don't, you are going to be asked the informations through the CLI.
 
 Run:
 ```

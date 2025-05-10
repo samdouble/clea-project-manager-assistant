@@ -1,11 +1,23 @@
 import json
+import keyring
+import os
 import sys
 import typer
+from rich import print
 
 from pma.mcp_servers.linear.issues import search_issues
 
 def main():
-    linear_api_key = typer.prompt("Enter the Linear API key")
+    linear_api_key = os.getenv(
+        "LINEAR_API_KEY",
+        keyring.get_password('samdouble_project_manager_assistant', 'linear_api_key'),
+    )
+    if linear_api_key:
+        print("[green]\u2713 Linear API key found in environment variables[/green]")
+    else:
+        linear_api_key = typer.prompt("Enter the Linear API key")
+        keyring.set_password('samdouble_project_manager_assistant', 'linear_api_key', linear_api_key)
+
     for line in sys.stdin:
         try:
             req = json.loads(line)
