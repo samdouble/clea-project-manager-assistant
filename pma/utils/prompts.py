@@ -21,6 +21,15 @@ BASIC_PROMPT = """
 
 def get_follow_up_prompt(question: str, mcp_response: str) -> str:
     return f"""
+        We work 5 days a week.
+        We have two week cycles that start every second Monday.
+        The points estimates are as follows:
+        - 1 point = less than 2 hours
+        - 2 points = half a day
+        - 3 points = up to 2 days
+        - 5 points = about 3.5 days
+        - 8 points = one week
+
         This is the question of the user.
         {question}
 
