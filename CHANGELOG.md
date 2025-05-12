@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/samdouble/clea-project-manager-assistant/compare/v0.2.0...v0.2.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* fix issue running through pip install ([2a7cea3](https://github.com/samdouble/clea-project-manager-assistant/commit/2a7cea33ae5a278657106ac71fc96fe4657cd8fb))
+* fix issue with asking issues for a particular assignee ([4d06ce8](https://github.com/samdouble/clea-project-manager-assistant/commit/4d06ce8f94b269ac2c739513e0a33ac68b98564a))
+
 ## [0.2.0](https://github.com/samdouble/clea-project-manager-assistant/compare/v0.1.0...v0.2.0) (2025-05-12)
 
 

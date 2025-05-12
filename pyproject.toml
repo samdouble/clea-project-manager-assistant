@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clea-pma"
-version = "0.2.0"
+version = "0.2.1"
 description = "Your project manager assistant"
 authors = ["samdouble <not-real@not-real.com>"]
 readme = "README.md"
