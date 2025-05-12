@@ -18,8 +18,8 @@ typer = "^0.15.3"
 
 [tool.poetry.scripts]
 build_executable = "pma.pyinstaller:install"
-clea = "main:main"
-pma = "main:main"
+clea = "pma.main:main"
+pma = "pma.main:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
