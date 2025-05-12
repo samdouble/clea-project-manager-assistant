@@ -2,6 +2,7 @@ from fastmcp import FastMCP
 from typing import Any
 
 from pma.mcp_servers.linear.issues import fct_search_issues
+from pma.mcp_servers.linear.team import fct_search_users
 
 
 linear_mcp = FastMCP(name="LinearMCPServer")
@@ -22,3 +23,10 @@ def search_issues(
         is_next_cycle=is_next_cycle,
         is_previous_cycle=is_previous_cycle,
     )
+
+@linear_mcp.tool()
+def search_users(
+    name: str = None,
+) -> list[Any]:
+    """Search for team members and users in Linear"""
+    return fct_search_users(name=name)

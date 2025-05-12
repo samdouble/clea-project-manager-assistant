@@ -4,6 +4,26 @@ from typing import Any
 from pma.integrations.linear import LinearClient
 from pma.utils.constants import LINEAR_BASE_URL
 
+ISSUE_NODE_FIELDS = """
+    assignee {
+        email
+    }
+    cycle {
+        name
+        number
+    }
+    description
+    dueDate
+    estimate
+    project {
+        name
+    }
+    state {
+        name
+    }
+    title
+    url
+"""
 
 def fct_search_issues(
     # Assignee
@@ -20,35 +40,19 @@ def fct_search_issues(
         "Content-Type": "application/json"
     }
     graphql_query = {
-        "query": """
-            query SearchIssues($issueFilter: IssueFilter, $cycleFilter: CycleFilter) {
-                issues(filter: $issueFilter) {
-                    nodes {
-                        assignee {
-                            email
-                        }
-                        cycle {
-                            name
-                            number
-                        }
-                        dueDate
-                        estimate
-                        project {
-                            name
-                        }
-                        state {
-                            name
-                        }
-                        title
-                        url
-                    }
-                }
-                cycles(filter: $cycleFilter) {
-                    nodes {
+        "query": f"""
+            query SearchIssues($issueFilter: IssueFilter, $cycleFilter: CycleFilter) {{
+                issues(filter: $issueFilter) {{
+                    nodes {{
+                        {ISSUE_NODE_FIELDS}
+                    }}
+                }}
+                cycles(filter: $cycleFilter) {{
+                    nodes {{
                         name
-                    }
-                }
-            }
+                    }}
+                }}
+            }}
         """,
         "variables": {
             "issueFilter": {
