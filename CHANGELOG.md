@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/samdouble/clea-project-manager-assistant/compare/v0.1.0...v0.2.0) (2025-05-12)
+
+
+### Features
+
+* add points estimates to aggregation prompt ([1267a82](https://github.com/samdouble/clea-project-manager-assistant/commit/1267a822d5f75519fa2841fe37c7568fc32f5ff3))
+
 ## 0.1.0 (2025-05-11)
 
 
