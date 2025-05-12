@@ -27,7 +27,7 @@ ISSUE_NODE_FIELDS = """
 
 def fct_search_issues(
     # Assignee
-    assignee: str = None,
+    assignee: str | None = None,
     is_mine_only: bool = False,
     # Cycle
     is_current_cycle: bool = False,

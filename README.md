@@ -16,6 +16,7 @@ pip install poetry
 
 Run in a terminal window:
 ```sh
+poetry install
 poetry run clea
 ```
 
