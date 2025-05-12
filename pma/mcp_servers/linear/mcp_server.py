@@ -9,7 +9,7 @@ linear_mcp = FastMCP(name="LinearMCPServer")
 
 @linear_mcp.tool()
 def search_issues(
-    assignee: str = None,
+    assignee: str | None = None,
     is_current_cycle: bool = False,
     is_mine_only: bool = False,
     is_next_cycle: bool = False,

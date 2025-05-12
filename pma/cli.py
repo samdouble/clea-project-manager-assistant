@@ -75,11 +75,11 @@ async def run():
                 message_text = message.content[0].text
                 messages.append({"role": "assistant", "content": message_text})
                 try:
-                    message_json = json.loads(message_text)
+                    message_json = json.loads(message_text, strict=False)
                     if message_json.get("target") == "MCP":
                         mcp_result = await linear_mcp_client.call_tool(message_json.get('tool'), message_json.get('params'))
                         # Ask the LLM to answer the user's question
-                        messages.append({"role": "user", "content": get_follow_up_prompt(user_input, mcp_result[0].text)})
+                        messages.append({"role": "user", "content": get_follow_up_prompt(user_input, mcp_result[0].text if len(mcp_result) > 0 else "")})
                         aggregated_message = client.messages.create(
                             model=ANTHROPIC_MODEL,
                             max_tokens=16384,

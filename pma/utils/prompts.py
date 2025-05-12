@@ -11,6 +11,7 @@ BASIC_PROMPT = """
         "tool": "search_issues",
         "message": "Here are all your issues in the current cycle.",
         "params": {
+            "assignee": None,
             "is_current_cycle": True,
             "is_mine_only": True,
             "is_next_cycle": False,
