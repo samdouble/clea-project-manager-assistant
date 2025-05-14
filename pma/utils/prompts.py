@@ -18,6 +18,19 @@ BASIC_PROMPT = """
             "is_previous_cycle": False,
         }
     }
+
+    User: "Show me all projects I am part of"
+    Assistant: {
+        "target": "MCP",
+        "tool": "search_projects",
+        "message": "Here are all projects you are part of.",
+        "params": {
+            "i_am_part_of": True,
+            "i_created": False,
+            "name": None,
+            "user_part_of": None,
+        }
+    }
 """
 
 def get_follow_up_prompt(question: str, mcp_response: str) -> str:

@@ -6,7 +6,10 @@ from pma.utils.constants import LINEAR_BASE_URL
 
 ISSUE_NODE_FIELDS = """
     assignee {
-        email
+        name
+    }
+    creator {
+        name
     }
     cycle {
         name

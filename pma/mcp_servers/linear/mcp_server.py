@@ -2,8 +2,8 @@ from fastmcp import FastMCP
 from typing import Any
 
 from pma.mcp_servers.linear.issues import fct_search_issues
-from pma.mcp_servers.linear.team import fct_search_users
-
+from pma.mcp_servers.linear.projects import fct_search_projects
+from pma.mcp_servers.linear.users import fct_search_users
 
 linear_mcp = FastMCP(name="LinearMCPServer")
 
@@ -23,6 +23,23 @@ def search_issues(
         is_next_cycle=is_next_cycle,
         is_previous_cycle=is_previous_cycle,
     )
+
+
+@linear_mcp.tool()
+def search_projects(
+    i_am_part_of: bool = False,
+    i_created: bool = False,
+    name: str | None = None,
+    user_part_of: str | None = None,
+) -> list[Any]:
+    """Search for projects in Linear"""
+    return fct_search_projects(
+        i_am_part_of=i_am_part_of,
+        i_created=i_created,
+        name=name,
+        user_part_of=user_part_of,
+    )
+
 
 @linear_mcp.tool()
 def search_users(
