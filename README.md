@@ -1,5 +1,18 @@
 # project-manager-assistant (Cléa)
 
+[![CI](https://github.com/samdouble/clea-project-manager-assistant/actions/workflows/checks.yml/badge.svg)](https://github.com/samdouble/clea-project-manager-assistant/actions/workflows/checks.yml)
+[![npm version](https://img.shields.io/npm/v/clea-project-manager-assistant.svg?style=flat)](https://www.npmjs.org/package/clea-project-manager-assistant)
+[![Coverage Status](https://coveralls.io/repos/samdouble/clea-project-manager-assistant/badge.svg?branch=master&service=github)](https://coveralls.io/github/samdouble/clea-project-manager-assistant?branch=master)
+
+## Installation
+
+Install from PyPI:
+```sh
+pip install clea-pma
+```
+
+## Setup
+
 Optionally, create a `.env` file like this:
 ```
 ANTHROPIC_API_KEY=
@@ -32,3 +45,10 @@ TODO
 - Faire un éxécutable pour simplifier l'installation
 - Questions sur les projets
 - Questions sur les membres de l'équipe
+
+
+
+Hey Clea, what are my issues for next cycle?
+I'd like to see the ones with an empty description
+Could you try filling a description for one of these issues?
+

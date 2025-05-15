@@ -87,8 +87,10 @@ async def run():
                         )
                         aggregated_message_text = aggregated_message.content[0].text
                         messages.append({"role": "assistant", "content": aggregated_message_text})
-                        aggregated_message_json = json.loads(aggregated_message_text)
-                        print_agent_message(aggregated_message_json.get('message'))
+                        #print("HELLO", aggregated_message_text, "HELLO2")
+                        #aggregated_message_json = json.loads(aggregated_message_text)
+                        #print_agent_message(aggregated_message_json.get('message'))
+                        print_agent_message(aggregated_message_text)
                         print("\n")
                     elif message_json.get("target") == "user":
                         print_agent_message(message_json.get('message'))
