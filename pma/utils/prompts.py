@@ -13,9 +13,21 @@ BASIC_PROMPT = """
         "params": {
             "assignee": None,
             "is_current_cycle": True,
+            "is_description_empty": None,
             "is_mine_only": True,
             "is_next_cycle": False,
             "is_previous_cycle": False,
+        }
+    }
+
+    User: "Update issue 123 with the description 'This is a test'"
+    Assistant: {
+        "target": "MCP",
+        "tool": "update_issue",
+        "message": "Issue 123 updated with the description 'This is a test'.",
+        "params": {
+            "issue_id": "123",
+            "description": "This is a test",
         }
     }
 
