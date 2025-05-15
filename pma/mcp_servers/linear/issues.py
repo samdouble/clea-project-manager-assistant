@@ -29,13 +29,15 @@ ISSUE_NODE_FIELDS = """
 """
 
 def fct_search_issues(
+    # Fields
+    is_description_empty: bool | None = None,
     # Assignee
     assignee: str | None = None,
     is_mine_only: bool = False,
     # Cycle
-    is_current_cycle: bool = False,
-    is_next_cycle: bool = False,
-    is_previous_cycle: bool = False
+    is_current_cycle: bool | None = None,
+    is_next_cycle: bool | None = None,
+    is_previous_cycle: bool | None = None
 ) -> list[Any]:
     linear_api_key = LinearClient().api_key
     headers = {
@@ -64,15 +66,51 @@ def fct_search_issues(
                     **({"name": {"contains": assignee}} if assignee else {}),
                 },
                 "cycle": {
-                    **({"isActive": {"eq": True}} if is_current_cycle else {}),
-                    **({"isNext": {"eq": True}} if is_next_cycle else {}),
-                    **({"isPrevious": {"eq": True}} if is_previous_cycle else {}),
+                    **({"isActive": {"eq": is_current_cycle}} if is_current_cycle is not None else {}),
+                    **({"isNext": {"eq": is_next_cycle}} if is_next_cycle is not None else {}),
+                    **({"isPrevious": {"eq": is_previous_cycle}} if is_previous_cycle is not None else {}),
+                },
+                "description": {
+                    **({"null": is_description_empty} if is_description_empty is not None else {}),
                 }
             },
             "cycleFilter": {
-                **({"isActive": {"eq": True}} if is_current_cycle else {}),
+                **({"isActive": {"eq": is_current_cycle}} if is_current_cycle is not None else {}),
             }
         }
     }
     resp = requests.post(LINEAR_BASE_URL, headers=headers, json=graphql_query)
     return resp.json()["data"]["issues"]["nodes"]
+
+
+def fct_update_issue(
+    issue_id: str,
+    description: str | None = None,
+    estimate: int | None = None,
+) -> list[Any]:
+    linear_api_key = LinearClient().api_key
+    headers = {
+        "Authorization": linear_api_key,
+        "Content-Type": "application/json"
+    }
+    graphql_query = {
+        "query": f"""
+            mutation UpdateIssue($id: String!, $updateInput: IssueUpdateInput!) {{
+                issueUpdate(id: $id, input: $updateInput) {{
+                    issue {{
+                        {ISSUE_NODE_FIELDS}
+                    }}
+                    success
+                }}
+            }}
+        """,
+        "variables": {
+            "id": issue_id,
+            "updateInput": {
+                **({"description": description} if description else {}),
+                **({"estimate": estimate} if estimate else {}),
+            },
+        }
+    }
+    resp = requests.post(LINEAR_BASE_URL, headers=headers, json=graphql_query)
+    return resp.json()["data"]["issueUpdate"]["issue"]

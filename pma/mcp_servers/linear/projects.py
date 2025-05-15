@@ -43,24 +43,16 @@ def fct_search_projects(
         """,
         "variables": {
             "projectFilter": {
-                **({
-                    "creator": {
-                        **({"isMe": {"eq": True}} if i_created else {}),
-                    }
-                } if i_created else {}),
-                **({
-                    "members": {
-                        "some": {
-                            **({"isMe": {"eq": True}} if i_am_part_of else {}),
-                            **({"name": {"contains": user_part_of}} if user_part_of else {}),
-                        },
+                "creator": {
+                    **({"isMe": {"eq": True}} if i_created else {}),
+                },
+                "members": {
+                    "some": {
+                        **({"isMe": {"eq": True}} if i_am_part_of else {}),
+                        **({"name": {"contains": user_part_of}} if user_part_of else {}),
                     },
-                } if i_am_part_of or user_part_of else {}),
-                **({
-                    "name": {
-                        **({"name": {"contains": name}} if name else {}),
-                    },
-                } if name else {}),
+                },
+                **({"name": {"contains": name}} if name else {}),
             },
         },
     }
