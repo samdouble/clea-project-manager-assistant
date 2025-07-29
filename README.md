@@ -1,7 +1,9 @@
 # project-manager-assistant (Cléa)
 
 [![CI](https://github.com/samdouble/clea-project-manager-assistant/actions/workflows/checks.yml/badge.svg)](https://github.com/samdouble/clea-project-manager-assistant/actions/workflows/checks.yml)
-[![npm version](https://img.shields.io/npm/v/clea-project-manager-assistant.svg?style=flat)](https://www.npmjs.org/package/clea-project-manager-assistant)
+[![PyPI version](https://img.shields.io/pypi/v/clea-pma)](https://pypi.org/project/clea-pma/)
+[![Python](https://img.shields.io/pypi/pyversions/clea-pma)](https://pypi.org/project/clea-pma/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Coverage Status](https://coveralls.io/repos/samdouble/clea-project-manager-assistant/badge.svg?branch=master&service=github)](https://coveralls.io/github/samdouble/clea-project-manager-assistant?branch=master)
 
 ## Installation
