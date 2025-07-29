@@ -1,9 +1,7 @@
-import json
 import requests
 from typing import Any
 
 from pma.integrations.linear import LinearClient
-from pma.mcp_servers.linear.issues import ISSUE_NODE_FIELDS
 from pma.utils.constants import LINEAR_BASE_URL
 
 
@@ -21,7 +19,7 @@ def fct_search_projects(
         "Content-Type": "application/json"
     }
     graphql_query = {
-        "query": f"""
+        "query": """
             query SearchProjects($projectFilter: ProjectFilter) {{
                 projects(filter: $projectFilter) {{
                     nodes {{
