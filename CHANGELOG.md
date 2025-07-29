@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/samdouble/clea-project-manager-assistant/compare/v0.2.1...v0.3.0) (2025-07-29)
+
+
+### Features
+
+* add projects tool ([d4aeb7f](https://github.com/samdouble/clea-project-manager-assistant/commit/d4aeb7f74d0110ced2d679d57857a8de9cd0a0cf))
+* update Linear issue ([a5e89e1](https://github.com/samdouble/clea-project-manager-assistant/commit/a5e89e14564b2fd157ec9c1bbd84542b08bc7bf2))
+
+
+### Documentation
+
+* add Python badges ([83c811d](https://github.com/samdouble/clea-project-manager-assistant/commit/83c811d61aad76b1aa65ba9b4b67b0a0b99f98c3))
+
 ## [0.2.1](https://github.com/samdouble/clea-project-manager-assistant/compare/v0.2.0...v0.2.1) (2025-05-12)
 
 
